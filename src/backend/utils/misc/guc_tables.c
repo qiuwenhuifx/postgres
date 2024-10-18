@@ -2319,7 +2319,16 @@ struct config_int ConfigureNamesInt[] =
 		2048, 0, MAX_BAS_VAC_RING_SIZE_KB,
 		check_vacuum_buffer_usage_limit, NULL, NULL
 	},
-
+ 	{
+		{"min_scan_buffers_size", PGC_USERSET, RESOURCES_MEM,
+			gettext_noop("Sets the buffer pool size for min_scan_buffers."),
+			NULL,
+			GUC_UNIT_KB
+		},
+		&MinscanBuffers,
+		16384, MIN_SCAN_BUFFER_SIZE_KB, MAX_SCAN_BUFFER_SIZE_KB,
+		check_min_scan_buffers_size, NULL, NULL
+	},
 	{
 		{"shared_memory_size", PGC_INTERNAL, PRESET_OPTIONS,
 			gettext_noop("Shows the size of the server's main shared memory area (rounded up to the nearest MB)."),
