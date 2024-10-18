@@ -143,6 +143,27 @@ double		bgwriter_lru_multiplier = 2.0;
 bool		track_io_timing = false;
 
 /*
+ * GUC check function to ensure GUC value specified is within the allowable
+ * range.
+ */
+bool
+check_min_scan_buffers_size(int *newval, void **extra,
+								GucSource source)
+{
+	/* Value upper and lower hard limits are inclusive */
+	if (*newval == 0 || (*newval >= MIN_SCAN_BUFFER_SIZE_KB &&
+						 *newval <= MAX_SCAN_BUFFER_SIZE_KB))
+		return true;
+
+	/* Value does not fall within any allowable range */
+	GUC_check_errdetail("\"min_scan_buffers_size\" must be between %d kB and %d kB",
+						MIN_SCAN_BUFFER_SIZE_KB, MAX_SCAN_BUFFER_SIZE_KB);
+
+	return false;
+}
+
+
+/*
  * How many buffers PrefetchBuffer callers should try to stay ahead of their
  * ReadBuffer calls by.  Zero means "never prefetch".  This value is only used
  * for buffers not belonging to tablespaces that have their
