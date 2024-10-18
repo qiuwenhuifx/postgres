@@ -147,6 +147,9 @@ int			MaxBackends = 0;
 /* GUC parameters for vacuum */
 int			VacuumBufferUsageLimit = 2048;
 
+/* GUC parameters for min_scan_buffers */
+int			MinscanBuffers = 8196;
+
 int			VacuumCostPageHit = 1;
 int			VacuumCostPageMiss = 2;
 int			VacuumCostPageDirty = 20;
